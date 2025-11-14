@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using TELpro.DATA;
+
 namespace TELpro
 {
     public class Program
@@ -8,6 +11,10 @@ namespace TELpro
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<AppDbContext>(opts =>
+            {
+                opts.UseSqlServer(builder.Configuration.GetConnectionString("LaptopDbconnection"));
+            });
 
             var app = builder.Build();
 
@@ -27,7 +34,7 @@ namespace TELpro
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=AdminProductController1}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             app.Run();
